@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import tsti.desi.ejemplos.ejemplo02.service.SprintCompletoException;
 import tsti.desi.ejemplos.ejemplo02.service.TareaService;
 import tsti.desi.ejemplos.ejemplo02.domain.Tarea;
 
@@ -46,18 +47,30 @@ public class TareaController {
 
     @PostMapping("tarea")
     public ResponseEntity<String> nueva(@RequestBody Tarea t) {
-        if (t.getId() <= 0)
-            return ResponseEntity.badRequest().body("datos incorrectos");
+        if (t.getId() !=null &&  t.getId() >= 0)
+            return ResponseEntity.badRequest().body("No puede crear una tarea con ID distinto de null");
         else {
-            this.tareaService.agregar(t);
+            try {
+				this.tareaService.agregarTarea(t);				
+			} catch (SprintCompletoException e) {
+				e.printStackTrace();
+	            return ResponseEntity.badRequest().body(e.getMessage());
+			}
             return ResponseEntity.ok().body("Creado OK");
+
         }
     }
 
     @PutMapping("tarea")
-    public void modificar(@RequestBody Tarea t) {
-        this.tareaService.actualizar(t);
-    }
+    public ResponseEntity<String> modificar(@RequestBody Tarea t) {
+    	 try {
+				this.tareaService.agregarTarea(t);				
+			} catch (SprintCompletoException e) {
+				e.printStackTrace();
+	            return ResponseEntity.badRequest().body(e.getMessage());
+			}
+         return ResponseEntity.ok().body("Creado OK");
+       }
 
     @DeleteMapping("tarea/{id}")
     public void borrar(@PathVariable Integer id) {

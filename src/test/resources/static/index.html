@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="jquery-3.4.1.min.js"></script>
+</head>
+<body>
+
+<h2>Ejemplo cliente API REST</h2>
+
+<form name="frm" id="frm">
+  ID:<br>
+  <input type="text" name="id" id="id" />
+  <br>
+  Descripcion:<br>
+  <input type="text" name="descripcion" id="descripcion" />
+  <br><br>
+  <button onclick="crearTarea()" type="button">Nuevo</button>  
+  <button onclick="borrarTarea()" type="button">Borrar</button>  
+  <button onclick="actualizarTarea()" type="button">Actualizar</button>      
+</form> 
+
+<script>
+function borrarTarea(){
+    const id =  $('#id').val();
+    $.ajax({
+        url: 'http://localhost:8080/api/tarea/'+id,
+        type: 'DELETE',
+        success: function() { alert('DELETE completed'); }
+    });
+}
+
+function crearTarea(){
+    const tarea = { id:$('#id').val(), descripcion: $('#descripcion').val() };
+    console.log(JSON.stringify(tarea));
+    $.ajax({
+        url: 'http://localhost:8080/api/tarea',
+        type: 'POST',
+        data: JSON.stringify(tarea),        
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function() { alert('POST completed'); }
+    });
+}
+
+function actualizarTarea(){
+    const tarea = { id:$('#id').val(), descripcion: $('#descripcion').val() };
+    console.log(JSON.stringify(tarea));
+    $.ajax({
+        url: 'http://localhost:8080/api/tarea',
+        type: 'PUT',
+        data: JSON.stringify(tarea),        
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function() { alert('PUT completed'); }
+    });
+} 
+</script>
+</body>
+</html>
