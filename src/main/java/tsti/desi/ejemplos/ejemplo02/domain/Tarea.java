@@ -1,5 +1,6 @@
 package tsti.desi.ejemplos.ejemplo02.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,9 +16,13 @@ public class Tarea {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")	
     private Integer id;
+    @Column(name="DESCRIPCION")
     private String descripcion;
+    @Column(name="SP")
     private Integer storyPoints;
+    @Column(name="ES_URGENTE")
     private Boolean esUrgente;
     @ManyToOne
     @JoinColumn(name="ID_SPRINT")

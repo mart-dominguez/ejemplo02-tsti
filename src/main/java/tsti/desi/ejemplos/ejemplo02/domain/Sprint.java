@@ -2,6 +2,7 @@ package tsti.desi.ejemplos.ejemplo02.domain;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +14,11 @@ public class Sprint {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ID")
 	private Integer id;
+    @Column(name="DESCRIPCION")
 	private String descripcion;
+    @Column(name="TOTAL_SP")
 	private Integer totalStoryPoints;
 	@OneToMany(mappedBy = "sprint")
 	private List<Tarea> tareas;
