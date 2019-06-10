@@ -34,16 +34,12 @@ public class TareaService {
     	// no sobrepasa los story points del sprint y la tarea no es urgente
     	// o si la tarea es urgente los puede sobrepasar, pero solo pueden asignarse
     	// hasta 2 tareas urgentes al sprint
+    	
     	Sprint s = this.sprintService.buscarPorId(t.getSprint().getId());
     	Integer spDisponibles = s.getTotalStoryPoints() - this.sprintService.cantidadStoryPoints(s);
     	Integer cantidadUrgentes = this.sprintService.cantidadUrgentes(s);
-    	System.out.println("spDisponibles"+ spDisponibles);
-    	System.out.println("cantidad"+ cantidadUrgentes);
-    	System.out.println("t.getEsUrgente() "+ t.getEsUrgente() );
-    	if(spDisponibles>t.getStoryPoints()  || (t.getEsUrgente() && cantidadUrgentes<2)) {
-        	System.out.println("entro??"+ (spDisponibles>t.getStoryPoints())  );
-        	System.out.println("entrourgente??"+ ((t.getEsUrgente() && cantidadUrgentes<2))  );
-        	 
+    	    	
+    	if(spDisponibles>=t.getStoryPoints()  || (t.getEsUrgente() && cantidadUrgentes<2) || (t.getStoryPoints()-spDisponibles>2 && cantidadUrgentes==0)) {
     		t.setSprint(s);
     		this.tareaRepo.save(t);
     	} else {

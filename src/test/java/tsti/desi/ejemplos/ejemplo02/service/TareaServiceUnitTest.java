@@ -103,6 +103,24 @@ public class TareaServiceUnitTest {
         tareaUrgente.setSprint(mockSprint);
         tareaService.agregarTarea(tareaUrgente);
         verify(tareaRepo).save(tareaUrgente);
+	} 
+	
+	
+	@Test
+	public void testAgregarTareaExcedidaSinUrgentes() throws SprintCompletoException {
+		Sprint mockSprint = mock(Sprint.class);
+		when(mockSprint.getTotalStoryPoints()).thenReturn(15);
+		when(mockSprint.getId()).thenReturn(99);
+		
+		when(sprintService.buscarPorId(99)).thenReturn(mockSprint);
+		
+		when(sprintService.cantidadUrgentes(mockSprint)).thenReturn(0);
+		when(sprintService.cantidadStoryPoints(mockSprint)).thenReturn(6); // 15 - 6 + 10= 9-10
+
+        tareaUrgente.setSprint(mockSprint);
+        tareaService.agregarTarea(tareaUrgente);
+        verify(tareaRepo).save(tareaUrgente);
+
 	}
 
 }
